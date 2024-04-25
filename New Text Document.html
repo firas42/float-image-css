@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Animal Shapes</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+
+        .animal {
+            position: absolute;
+            transition: transform 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container for animals -->
+    <div id="animal-container"></div>
+
+    <script>
+        // Animal images
+        const animalImages = [
+            'd3.jpeg',
+            'd2.jpeg',
+            
+            // Add more animal image URLs here
+        ];
+
+        // Function to create a new random animal
+        function createRandomAnimal() {
+            const animalContainer = document.getElementById('animal-container');
+            const randomImageUrl = animalImages[Math.floor(Math.random() * animalImages.length)];
+
+            const newAnimal = document.createElement('img');
+            newAnimal.src = randomImageUrl;
+            newAnimal.className = 'animal';
+            newAnimal.width = 100; // Set image width
+            newAnimal.height = 100; // Set image height
+
+            animalContainer.appendChild(newAnimal);
+
+            moveAnimalRandomly(newAnimal); // Start moving the new animal randomly
+        }
+
+        // Function to move an animal to a random position on the page
+        function moveAnimalRandomly(animal) {
+            const maxX = window.innerWidth - 100; // Max X coordinate within viewport (considering image width)
+            const maxY = window.innerHeight - 100; // Max Y coordinate within viewport (considering image height)
+
+            const newX = getRandomNumber(maxX);
+            const newY = getRandomNumber(maxY);
+
+            animal.style.transform = `translate(${newX}px, ${newY}px)`;
+
+            // Schedule next movement after a random delay (1-3 seconds)
+            setTimeout(() => {
+                moveAnimalRandomly(animal);
+            }, getRandomNumber(2000) + 1000); // Random delay between 1 to 3 seconds
+        }
+
+        // Function to generate a random number within a range
+        function getRandomNumber(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+        // Create new animals continuously at random intervals
+        setInterval(() => {
+            createRandomAnimal();
+        }, 2000); // Create a new animal every 2 seconds
+    </script>
+</body>
+</html>
